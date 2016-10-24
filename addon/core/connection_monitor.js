@@ -6,7 +6,7 @@ var ConnectionMonitor = Ember.Object.extend({
   startedAt: null,
   pingedAt: null,
   disconnectedAt: null,
-  staleThreshold: 6,
+  staleThreshold: 60,
   reconnectAttempts: 0,
 
   init() {
