@@ -71,6 +71,12 @@ export default Ember.Object.extend({
         default:
           this.get('consumer.subscriptions').notify(data.identifier, 'received', data.message);
       }
+      
+      // Rail 4.2 Hack (wrong old ping format)
+      if(data.identifier == "_ping") {
+        this.get('monitor').ping();
+      }
+      
 
     },
 
