@@ -18,11 +18,21 @@ export default Ember.Object.extend({
   },
 
   open() {
-    this.set('webSocket', new WebSocket(this.get('consumer.url')));
-    for (var eventName in this.events) {
-      this.get('webSocket')[`on${eventName}`] = this.events[eventName].bind(this);
+    try {
+      this.set('webSocket', new WebSocket(this.get('consumer.url')));
+      
+      for (var eventName in this.events) {
+        this.get('webSocket')[`on${eventName}`] = this.events[eventName].bind(this);
+      }
     }
+    catch(err) {
+      this.get('consumer.subscriptions').notify(data.identifier, 'errorConnection', err);
+
+    }
+    
   },
+  
+  
 
   close() {
     Ember.tryInvoke(this.get('webSocket'), 'close');
