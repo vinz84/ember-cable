@@ -23,7 +23,7 @@ export default Ember.Object.extend({
       for (var eventName in this.events) {
         this.get('webSocket')[`on${eventName}`] = this.events[eventName].bind(this);
         if(eventName == 'error') {
-          this.get('consumer.subscriptions').notify("error", 'errorConnection', eventName);
+          this.get('consumer.subscriptions').notifyAll('errorConnection');
         }
       }
     
