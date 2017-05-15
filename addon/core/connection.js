@@ -18,17 +18,14 @@ export default Ember.Object.extend({
   },
 
   open() {
-    try {
       this.set('webSocket', new WebSocket(this.get('consumer.url')));
       
       for (var eventName in this.events) {
         this.get('webSocket')[`on${eventName}`] = this.events[eventName].bind(this);
+        if(eventName == 'error') {
+          this.get('consumer.subscriptions').notify(data.identifier, 'errorConnection', eventName);
+        }
       }
-    }
-    catch(err) {
-      this.get('consumer.subscriptions').notify(data.identifier, 'errorConnection', err);
-
-    }
     
   },
   
